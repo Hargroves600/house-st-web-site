@@ -441,6 +441,28 @@
     border-radius:2px;
   }
 
+
+  /* CAPTCHA */
+  .captcha-cell {
+    background: #1a1a1a;
+    border: 2px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    position: relative;
+  }
+  .captcha-cell:hover { border-color: rgba(255,215,0,0.4); background: #222; transform: scale(1.05); }
+  .captcha-cell.selected { border-color: var(--yellow); background: rgba(255,215,0,0.12); box-shadow: 0 0 12px rgba(255,215,0,0.25); }
+  .captcha-cell.selected::after { content:'✓'; position:absolute; top:3px; right:5px; font-size:0.7rem; color:var(--yellow); font-family:'Rajdhani',sans-serif; font-weight:900; }
+  .captcha-cell.wrong { border-color: #ff4444; background: rgba(255,50,50,0.12); animation: shake 0.3s; }
+  @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+
   /* Scrollbar */
   ::-webkit-scrollbar { width:6px; }
   ::-webkit-scrollbar-track { background:#0a0a0a; }
@@ -575,7 +597,23 @@
         <input class="pix-input" type="text" placeholder="Seu nome (Opcional)" id="supporterName" style="margin-bottom:8px;">
         <input class="pix-input" type="text" placeholder="TikTok (ex: @seuperfil)" id="supporterUser">
 
-        <button class="btn-primary" style="width:100%;margin-top:20px;padding:16px;" onclick="irParaPagamento()">
+        <!-- CAPTCHA -->
+        <div id="captchaBox" style="margin-top:20px;">
+          <p style="font-family:'Press Start 2P',cursive;font-size:0.5rem;color:#888;letter-spacing:2px;margin-bottom:10px;">VERIFICAÇÃO DE SEGURANÇA</p>
+          <div style="background:#0e0e0e;border:1.5px solid rgba(255,215,0,0.25);border-radius:10px;padding:16px;">
+            <p id="captchaQuestion" style="font-size:0.72rem;color:#ccc;margin-bottom:12px;line-height:1.7;text-align:center;"></p>
+            <div id="captchaGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;"></div>
+            <div id="captchaFeedback" style="display:none;text-align:center;font-size:0.7rem;padding:8px;border-radius:6px;"></div>
+            <div style="text-align:right;margin-top:4px;">
+              <button onclick="gerarCaptcha()" style="background:none;border:none;color:#555;font-size:0.6rem;cursor:pointer;font-family:'Press Start 2P',cursive;letter-spacing:1px;">🔄 NOVO</button>
+            </div>
+          </div>
+          <div id="captchaOk" style="display:none;background:rgba(77,255,136,0.08);border:1px solid rgba(77,255,136,0.3);border-radius:8px;padding:10px;text-align:center;margin-top:8px;">
+            <span style="font-family:'Press Start 2P',cursive;font-size:0.5rem;color:#4dff88;letter-spacing:1px;">✅ VERIFICADO!</span>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="btnContinuar" style="width:100%;margin-top:16px;padding:16px;opacity:0.4;cursor:not-allowed;" onclick="irParaPagamento()" disabled>
           Continuar para Pagamento →
         </button>
         <p style="text-align:center;color:#555;font-size:0.7rem;margin-top:10px;">🔒 Pagamento 100% via PIX • Seguro</p>
@@ -923,6 +961,159 @@
     });
   }
 
+  // =========================================================
+  // 🤖 CAPTCHA ANTI-BOT — estilo Roblox
+  // =========================================================
+  const _CAPTCHA_SETS = [
+    {
+      question: 'Selecione todos os 🍕 PIZZA',
+      target: '🍕',
+      items: ['🍕','🍔','🍕','🌮','🍕','🍟','🎂','🍕','🍜'],
+    },
+    {
+      question: 'Selecione todos os ⭐ ESTRELA',
+      target: '⭐',
+      items: ['⭐','🌙','⭐','☀️','⭐','🌈','💫','⭐','🌟'],
+    },
+    {
+      question: 'Selecione todos os 🏠 CASA',
+      target: '🏠',
+      items: ['🏠','🏢','🏠','🌳','🏠','🚗','🏚️','🏠','🏰'],
+    },
+    {
+      question: 'Selecione todos os 🎮 CONTROLE',
+      target: '🎮',
+      items: ['🎮','🎲','🎮','🃏','🎮','🎯','🎸','🎮','🕹️'],
+    },
+    {
+      question: 'Selecione todos os 🐱 GATO',
+      target: '🐱',
+      items: ['🐱','🐶','🐱','🐸','🐱','🦊','🐯','🐱','🐭'],
+    },
+    {
+      question: 'Selecione todos os 💎 DIAMANTE',
+      target: '💎',
+      items: ['💎','💰','💎','🪙','💎','👑','🔮','💎','💍'],
+    },
+  ];
+
+  let _captchaCorrect = [];
+  let _captchaSelected = [];
+  let _captchaSolved = false;
+  let _captchaAttempts = 0;
+  let _captchaLocked = false;
+
+  function gerarCaptcha() {
+    if (_captchaLocked) return;
+    _captchaSelected = [];
+    _captchaSolved = false;
+
+    // Desabilitar botão continuar
+    const btn = document.getElementById('btnContinuar');
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed'; }
+    document.getElementById('captchaOk').style.display = 'none';
+
+    // Escolher desafio aleatório
+    const set = _CAPTCHA_SETS[Math.floor(Math.random() * _CAPTCHA_SETS.length)];
+
+    // Embaralhar posições
+    const shuffled = [...set.items].sort(() => Math.random() - 0.5);
+
+    // Identificar posições corretas após embaralhamento
+    _captchaCorrect = shuffled.reduce((acc, item, i) => {
+      if (item === set.target) acc.push(i);
+      return acc;
+    }, []);
+
+    document.getElementById('captchaQuestion').textContent = set.question;
+
+    const grid = document.getElementById('captchaGrid');
+    grid.innerHTML = '';
+    shuffled.forEach((emoji, i) => {
+      const cell = document.createElement('div');
+      cell.className = 'captcha-cell';
+      cell.textContent = emoji;
+      cell.dataset.index = i;
+      cell.onclick = () => selecionarCaptcha(cell, i);
+      grid.appendChild(cell);
+    });
+
+    const fb = document.getElementById('captchaFeedback');
+    fb.style.display = 'none';
+  }
+
+  function selecionarCaptcha(cell, index) {
+    if (_captchaLocked || _captchaSolved) return;
+
+    if (_captchaSelected.includes(index)) {
+      _captchaSelected = _captchaSelected.filter(i => i !== index);
+      cell.classList.remove('selected');
+    } else {
+      _captchaSelected.push(index);
+      cell.classList.add('selected');
+    }
+
+    // Auto-verificar quando selecionou a qtd certa
+    if (_captchaSelected.length === _captchaCorrect.length) {
+      verificarCaptcha();
+    }
+  }
+
+  function verificarCaptcha() {
+    const acertou =
+      _captchaSelected.length === _captchaCorrect.length &&
+      _captchaSelected.every(i => _captchaCorrect.includes(i));
+
+    const fb = document.getElementById('captchaFeedback');
+    fb.style.display = 'block';
+
+    if (acertou) {
+      _captchaSolved = true;
+      fb.style.background = 'rgba(77,255,136,0.08)';
+      fb.style.border = '1px solid rgba(77,255,136,0.3)';
+      fb.style.color = '#4dff88';
+      fb.textContent = '✅ Correto!';
+      document.getElementById('captchaOk').style.display = 'block';
+      // Habilitar botão continuar
+      const btn = document.getElementById('btnContinuar');
+      if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer'; }
+      // Desabilitar interação no grid
+      document.querySelectorAll('.captcha-cell').forEach(c => c.style.pointerEvents = 'none');
+    } else {
+      _captchaAttempts++;
+      // Marcar erradas de vermelho
+      document.querySelectorAll('.captcha-cell').forEach(c => {
+        const idx = parseInt(c.dataset.index);
+        if (_captchaSelected.includes(idx) && !_captchaCorrect.includes(idx)) {
+          c.classList.add('wrong');
+        }
+      });
+      fb.style.background = 'rgba(255,50,50,0.08)';
+      fb.style.border = '1px solid rgba(255,50,50,0.3)';
+      fb.style.color = '#ff6b6b';
+
+      if (_captchaAttempts >= 5) {
+        _captchaLocked = true;
+        fb.textContent = '🔒 Muitas tentativas! Recarregue a página.';
+        document.querySelectorAll('.captcha-cell').forEach(c => c.style.pointerEvents = 'none');
+      } else {
+        fb.textContent = `❌ Errado! Tente novamente. (${5 - _captchaAttempts} tentativas restantes)`;
+        setTimeout(() => {
+          gerarCaptcha();
+        }, 1200);
+      }
+    }
+  }
+
+  // Inicializar captcha quando o popup abrir
+  const _origOpen = window.openOverlay;
+  window.openOverlay = function(id) {
+    _origOpen(id);
+    if (id === 'overlaySupporter') {
+      setTimeout(() => { gerarCaptcha(); }, 150);
+    }
+  };
+
   function irParaPagamento() {
     document.getElementById('stepPlano').style.display = 'none';
     document.getElementById('stepPix').style.display = 'block';
@@ -953,6 +1144,7 @@
     clearInterval(_qrTimerInterval);
     document.getElementById('supporterName').value = '';
     document.getElementById('supporterUser').value = '';
+    _captchaSolved = false; _captchaAttempts = 0; _captchaLocked = false;
     document.getElementById('stepPlano').style.display = 'block';
     document.getElementById('stepPix').style.display = 'none';
     document.getElementById('stepSucesso').style.display = 'none';
@@ -980,6 +1172,7 @@
   window.openOverlay = openOverlay;
   window.closeOverlay = closeOverlay;
   window.irParaPagamento = irParaPagamento;
+  window.gerarCaptcha = gerarCaptcha;
   window.voltarPlano = voltarPlano;
   window.confirmarPagamento = confirmarPagamento;
   window.resetSupporter = resetSupporter;
