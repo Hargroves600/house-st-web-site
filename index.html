@@ -1099,6 +1099,18 @@
   };
 
   function irParaPagamento() {
+    const user = document.getElementById('supporterUser').value.trim();
+    if (!user) {
+      const el = document.getElementById('supporterUser');
+      el.style.borderColor = '#ff4444';
+      el.placeholder = '⚠️ TikTok é obrigatório!';
+      el.focus();
+      setTimeout(() => {
+        el.style.borderColor = '';
+        el.placeholder = 'TikTok (ex: @seuperfil)';
+      }, 2500);
+      return;
+    }
     document.getElementById('stepPlano').style.display = 'none';
     document.getElementById('stepPix').style.display = 'block';
     document.getElementById('stepSucesso').style.display = 'none';
