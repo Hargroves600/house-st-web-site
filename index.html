@@ -485,8 +485,6 @@
   <div class="nav-logo">HOUSE ST</div>
   <div class="nav-links">
     <a onclick="openOverlay('overlaySupporter')">Suportador</a>
-    <a id="navSacar" style="display:none;" onclick="openOverlay('overlaySacar')">Sacar</a>
-    <button class="nav-btn-admin" onclick="openOverlay('overlayAdminLogin')">Admin</button>
   </div>
 </nav>
 
@@ -650,77 +648,8 @@
   </div>
 </div>
 
-<!-- ===== OVERLAY: SACAR ===== -->
-<div class="overlay" id="overlaySacar">
-  <div class="popup">
-    <button class="popup-close" onclick="closeOverlay('overlaySacar')">✕</button>
-    <h2>💸 Sacar</h2>
-    <div class="glow-line" style="margin:10px 0;"></div>
-    <div class="sacar-total">
-      <p>Total arrecadado</p>
-      <div class="amount" id="totalAmount">R$ 0,00</div>
-    </div>
-    <p style="color:#888; font-size:0.9rem; margin-bottom:16px;">Envie o PIX para receber o valor arrecadado:</p>
-    <input class="pix-input" type="text" placeholder="Chave PIX (CPF, e-mail, telefone...)" id="pixKey">
-    <input class="pix-input" type="text" placeholder="Valor a sacar (ex: 3.00)" id="pixAmount">
-    <button class="btn-primary" style="width:100%; margin-top:12px;" onclick="enviarPix()">Enviar PIX</button>
-    <div class="success-msg" id="pixSuccess">✅ PIX enviado com sucesso!</div>
-  </div>
-</div>
 
-<!-- ===== OVERLAY: ADMIN LOGIN ===== -->
-<div class="overlay" id="overlayAdminLogin">
-  <div class="popup">
-    <button class="popup-close" onclick="closeOverlay('overlayAdminLogin')">✕</button>
-    <h2>🔐 Admin</h2>
-    <div class="glow-line" style="margin:10px 0;"></div>
-    <p style="color:#888; font-size:0.7rem; margin-bottom:16px; line-height:1.8;">Um código de 6 dígitos será enviado para o e-mail autorizado.</p>
-    <button class="btn-primary" style="width:100%;" onclick="enviarCodigoAdmin()" id="btnEnviarCodigo">Enviar Código para Gmail</button>
-    <div id="adminCodeSection" style="display:none; margin-top:16px;">
-      <label style="color:#aaa; font-size:0.65rem; font-family:'Press Start 2P',cursive; display:block; margin-bottom:8px;">CÓDIGO RECEBIDO</label>
-      <input class="pix-input" type="text" placeholder="Digite o código de 6 dígitos" id="adminCodeInput" maxlength="6">
-      <button class="btn-primary" style="width:100%; margin-top:10px;" onclick="verificarCodigo()">Verificar Código</button>
-    </div>
-    <div class="success-msg" id="adminCodeSent" style="display:none;">📧 Código enviado para <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2cec7d4cbc0cdcccbd6c3cd93909196e2c5cfc3cbce8cc1cdcf">[email&#160;protected]</a></div>
-    <div class="success-msg" id="adminError" style="background:rgba(255,50,50,0.1); border-color:rgba(255,50,50,0.3); color:#ff6b6b; display:none;">❌ Código inválido. Tente novamente.</div>
-  </div>
-</div>
 
-<!-- ===== OVERLAY: ADMIN PANEL ===== -->
-<div class="overlay" id="overlayAdminPanel">
-  <div class="popup" style="max-width:600px; max-height:85vh; overflow-y:auto;">
-    <button class="popup-close" onclick="closeOverlay('overlayAdminPanel')">✕</button>
-    <h2>⚙️ Painel Admin</h2>
-    <div style="display:flex;justify-content:flex-end;margin-top:-10px;margin-bottom:6px;">
-      <button onclick="adminLogout()" style="background:rgba(255,50,50,0.15);border:1px solid rgba(255,50,50,0.4);color:#ff6b6b;padding:6px 14px;border-radius:4px;font-family:'Press Start 2P',cursive;font-size:0.5rem;cursor:pointer;letter-spacing:1px;">LOGOUT</button>
-    </div>
-    <div class="glow-line" style="margin:10px 0;"></div>
-
-    <div class="admin-section-title">💰 Financeiro</div>
-    <div class="sacar-total">
-      <p>Total arrecadado com Suportadores</p>
-      <div class="amount" id="adminTotal">R$ 0,00</div>
-    </div>
-
-    <div class="admin-section-title">⭐ Suportadores</div>
-    <div id="supporterList" style="color:#aaa; font-size:0.9rem;">Nenhum suportador ainda.</div>
-
-    <div class="admin-section-title">✏️ Editar Plano Suportador</div>
-    <div class="admin-form">
-      <label>Preço (R$)</label>
-      <input class="pix-input" type="number" id="adminPrice" value="3.00" step="0.01">
-      <label>Nome do Plano</label>
-      <input class="pix-input" type="text" id="adminPlanName" value="Plano Suportador">
-      <label>Benefícios (um por linha)</label>
-      <textarea class="pix-input" id="adminPerks" rows="5" style="resize:vertical;">Tag exclusiva de Suportador
-Acesso a canais especiais
-Suporte prioritário
-Apoie a House ST ❤️</textarea>
-      <button class="btn-primary" style="width:100%; margin-top:12px;" onclick="salvarPlano()">Salvar Alterações</button>
-    </div>
-    <div class="success-msg" id="planSaved">✅ Plano atualizado com sucesso!</div>
-  </div>
-</div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -747,7 +676,7 @@ Apoie a House ST ❤️</textarea>
     debugger;
     if(new Date() - t > 80){
       _devOpen = true;
-      if(_isAdmin){ _forceLogout('🚨 DevTools detectado! Sessão encerrada.'); }
+
     }
   };
   setInterval(_devCheck, 2000);
@@ -793,31 +722,11 @@ Apoie a House ST ❤️</textarea>
   // =========================================================
   emailjs.init("rh02YfBqLHu1NhcaC");
 
-  let _isAdmin = false;
   let _totalArrecadado = 0;
   let _supporters = [];
-  let _adminCode = null;
-  let _adminCodeExpiry = 0;
-  let _loginAttempts = 0;
-  let _lockUntil = 0;
   let _selectedMethod = 'pix';
-  const CODE_TTL = 5 * 60 * 1000; // 5 min
-  const MAX_ATTEMPTS = 5;
-  const LOCKOUT_MS = 15 * 60 * 1000; // 15 min
 
-  function _forceLogout(reason){
-    _isAdmin = false;
-    document.getElementById('navSacar').style.display = 'none';
-    closeOverlay('overlayAdminPanel');
-    closeOverlay('overlaySacar');
-    setTimeout(()=>showSecAlert(reason||'Sessão encerrada.'), 100);
-  }
 
-  // Admin guard: only call fn if admin session active
-  function adminGuard(fn){
-    if(!_isAdmin){ showSecAlert('🔒 Acesso negado. Faça login como Admin.'); return; }
-    fn();
-  }
 
   // ---- Title animation ----
   const titleText = "HOUSE ST";
@@ -832,14 +741,8 @@ Apoie a House ST ❤️</textarea>
 
   // ---- Overlay ----
   function openOverlay(id){
-    // Guard protected overlays
-    if((id==='overlaySacar'||id==='overlayAdminPanel') && !_isAdmin){
-      showSecAlert('🔒 Acesso restrito a administradores.');
-      return;
-    }
     document.getElementById(id).classList.add('active');
     document.body.style.overflow = 'hidden';
-    if(id==='overlaySacar'||id==='overlayAdminPanel') updateTotals();
   }
   function closeOverlay(id){
     const el = document.getElementById(id);
@@ -1059,100 +962,7 @@ Apoie a House ST ❤️</textarea>
     _qrGenCount = 0;
   }
 
-  // ---- Sacar (ADMIN ONLY) ----
-  function enviarPix(){
-    if(!_isAdmin){ _forceLogout('🚨 Acesso não autorizado!'); return; }
-    if(_devOpen){ _forceLogout('🚨 DevTools detectado!'); return; }
-    const key = document.getElementById('pixKey').value.trim();
-    const amount = parseFloat(document.getElementById('pixAmount').value);
-    if(!key){ showSecAlert('Digite uma chave PIX!'); return; }
-    if(!amount||amount<=0){ showSecAlert('Digite um valor válido!'); return; }
-    if(amount>_totalArrecadado){ showSecAlert('Saldo insuficiente!'); return; }
-    _totalArrecadado -= amount;
-    document.getElementById('pixSuccess').style.display='block';
-    document.getElementById('pixKey').value='';
-    document.getElementById('pixAmount').value='';
-    updateTotals();
-    setTimeout(()=>document.getElementById('pixSuccess').style.display='none',3000);
-  }
 
-  // ---- Admin Login com rate-limit e código criptografado ----
-  async function enviarCodigoAdmin(){
-    const now = Date.now();
-    if(now < _lockUntil){
-      const mins = Math.ceil((_lockUntil-now)/60000);
-      showSecAlert(`🔒 Bloqueado! Tente em ${mins} min.`);
-      return;
-    }
-    const btn = document.getElementById('btnEnviarCodigo');
-    btn.textContent='Enviando...'; btn.disabled=true;
-
-    // Gerar código e salvar como hash XOR simples (não exposto no console)
-    const raw = Math.floor(100000+Math.random()*900000).toString();
-    const key2 = Math.floor(Math.random()*9)+1;
-    // Store only XOR-scrambled version in memory, never the plain code
-    _adminCode = { scrambled: raw.split('').map(c=>(parseInt(c)^key2).toString()).join(''), key2 };
-    _adminCodeExpiry = now + CODE_TTL;
-
-    try {
-      await emailjs.send("service_housest","template_admincode",{
-        to_email:"levibonitao1234@gmail.com",
-        code: raw
-      });
-    } catch(e){ /* silent */ }
-
-    document.getElementById('adminCodeSent').style.display='block';
-    document.getElementById('adminCodeSection').style.display='block';
-    btn.textContent='Reenviar Código'; btn.disabled=false;
-
-    // Auto-expire code
-    setTimeout(()=>{ _adminCode=null; }, CODE_TTL);
-  }
-
-  function verificarCodigo(){
-    const now = Date.now();
-    if(now < _lockUntil){
-      const mins = Math.ceil((_lockUntil-now)/60000);
-      showSecAlert(`🔒 Muitas tentativas! Aguarde ${mins} min.`);
-      return;
-    }
-    if(!_adminCode||now>_adminCodeExpiry){
-      document.getElementById('adminError').style.display='block';
-      document.getElementById('adminError').textContent='❌ Código expirado. Solicite um novo.';
-      _adminCode=null;
-      return;
-    }
-    const input = document.getElementById('adminCodeInput').value.trim();
-    // Reconstruct plain code from scrambled to compare
-    const plain = _adminCode.scrambled.split('').map(c=>(parseInt(c)^_adminCode.key2).toString()).join('');
-
-    document.getElementById('adminError').style.display='none';
-    if(input===plain){
-      _isAdmin = true;
-      _loginAttempts = 0;
-      _adminCode = null;
-      // Reveal Sacar in nav
-      document.getElementById('navSacar').style.display='inline';
-      closeOverlay('overlayAdminLogin');
-      openOverlay('overlayAdminPanel');
-      document.getElementById('adminCodeInput').value='';
-      document.getElementById('adminCodeSection').style.display='none';
-      document.getElementById('adminCodeSent').style.display='none';
-      // Auto-logout after 30 min inactivity
-      resetAutoLogout();
-    } else {
-      _loginAttempts++;
-      if(_loginAttempts>=MAX_ATTEMPTS){
-        _lockUntil = Date.now()+LOCKOUT_MS;
-        _adminCode = null;
-        document.getElementById('adminError').style.display='block';
-        document.getElementById('adminError').textContent=`🔒 ${MAX_ATTEMPTS} tentativas erradas. Bloqueado por 15 min.`;
-      } else {
-        document.getElementById('adminError').style.display='block';
-        document.getElementById('adminError').textContent=`❌ Código inválido. (${MAX_ATTEMPTS-_loginAttempts} tentativas restantes)`;
-      }
-    }
-  }
 
   // ---- Auto logout ----
   let _autoLogoutTimer;
@@ -1164,17 +974,7 @@ Apoie a House ST ❤️</textarea>
   }
   ['click','keydown','mousemove'].forEach(ev=>document.addEventListener(ev,()=>{ if(_isAdmin) resetAutoLogout(); }));
 
-  // ---- Logout ----
-  function adminLogout(){
-    _forceLogout('👋 Logout realizado com sucesso.');
-  }
 
-  // ---- Salvar Plano ----
-  function salvarPlano(){
-    if(!_isAdmin){ showSecAlert('🔒 Sem permissão.'); return; }
-    document.getElementById('planSaved').style.display='block';
-    setTimeout(()=>document.getElementById('planSaved').style.display='none',2500);
-  }
 
   // Expose only needed functions globally (minimum surface)
   window.openOverlay = openOverlay;
@@ -1184,12 +984,6 @@ Apoie a House ST ❤️</textarea>
   window.confirmarPagamento = confirmarPagamento;
   window.resetSupporter = resetSupporter;
   window.copiarPix = copiarPix;
-  window.enviarPix = enviarPix;
-  window.enviarCodigoAdmin = enviarCodigoAdmin;
-  window.verificarCodigo = verificarCodigo;
-  window.salvarPlano = salvarPlano;
-  window.adminLogout = adminLogout;
-  window.adminGuard = adminGuard;
 
 })();
 </script>
