@@ -597,23 +597,7 @@
         <input class="pix-input" type="text" placeholder="Seu nome (Opcional)" id="supporterName" style="margin-bottom:8px;">
         <input class="pix-input" type="text" placeholder="TikTok (ex: @seuperfil)" id="supporterUser">
 
-        <!-- CAPTCHA -->
-        <div id="captchaBox" style="margin-top:20px;">
-          <p style="font-family:'Press Start 2P',cursive;font-size:0.5rem;color:#888;letter-spacing:2px;margin-bottom:10px;">VERIFICAÇÃO DE SEGURANÇA</p>
-          <div style="background:#0e0e0e;border:1.5px solid rgba(255,215,0,0.25);border-radius:10px;padding:16px;">
-            <p id="captchaQuestion" style="font-size:0.72rem;color:#ccc;margin-bottom:12px;line-height:1.7;text-align:center;"></p>
-            <div id="captchaGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;"></div>
-            <div id="captchaFeedback" style="display:none;text-align:center;font-size:0.7rem;padding:8px;border-radius:6px;"></div>
-            <div style="text-align:right;margin-top:4px;">
-              <button onclick="gerarCaptcha()" style="background:none;border:none;color:#555;font-size:0.6rem;cursor:pointer;font-family:'Press Start 2P',cursive;letter-spacing:1px;">🔄 NOVO</button>
-            </div>
-          </div>
-          <div id="captchaOk" style="display:none;background:rgba(77,255,136,0.08);border:1px solid rgba(77,255,136,0.3);border-radius:8px;padding:10px;text-align:center;margin-top:8px;">
-            <span style="font-family:'Press Start 2P',cursive;font-size:0.5rem;color:#4dff88;letter-spacing:1px;">✅ VERIFICADO!</span>
-          </div>
-        </div>
-
-        <button class="btn-primary" id="btnContinuar" style="width:100%;margin-top:16px;padding:16px;opacity:0.4;cursor:not-allowed;" onclick="irParaPagamento()" disabled>
+        <button class="btn-primary" style="width:100%;margin-top:20px;padding:16px;" onclick="irParaPagamento()">
           Continuar para Pagamento →
         </button>
         <p style="text-align:center;color:#555;font-size:0.7rem;margin-top:10px;">🔒 Pagamento 100% via PIX • Seguro</p>
@@ -668,7 +652,7 @@
           <strong style="color:#fff;">@holly_wheeler448</strong> no TikTok.</p>
         </div>
 
-        <button onclick="voltarPlano()" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,0.1);color:#666;font-size:0.6rem;margin-top:4px;cursor:pointer;padding:12px;border-radius:6px;font-family:'Press Start 2P',cursive;">← Voltar</button>
+        <button onclick="voltarPlano()" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#888;font-size:0.75rem;margin-top:10px;cursor:pointer;padding:16px;border-radius:8px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:2px;min-height:50px;">← VOLTAR</button>
       </div>
     </div>
 
