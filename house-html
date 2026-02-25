@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOUSE ST</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFD700;
+    --yellow2: #FFA500;
+    --dark: #0a0a0a;
+    --dark2: #111111;
+    --dark3: #1a1a1a;
+    --card: #161616;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--dark);
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG particles */
+  body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background: 
+      radial-gradient(ellipse at 20% 50%, rgba(255,215,0,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(255,165,0,0.04) 0%, transparent 50%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 14px 40px;
+    background: rgba(10,10,10,0.95);
+    border-bottom: 2px solid rgba(255,215,0,0.15);
+    backdrop-filter: blur(10px);
+  }
+  .nav-logo {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shine 2s linear infinite;
+  }
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+  .nav-links { display:flex; gap:20px; align-items:center; }
+  .nav-links a {
+    color: #ccc;
+    text-decoration:none;
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    transition: color 0.2s;
+    cursor:pointer;
+  }
+  .nav-links a:hover { color: var(--yellow); }
+  .nav-btn-admin {
+    background: transparent;
+    border: 1.5px solid rgba(255,215,0,0.4);
+    color: var(--yellow);
+    padding: 6px 18px;
+    border-radius: 4px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight:700;
+    font-size:0.9rem;
+    letter-spacing:1px;
+    cursor:pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn-admin:hover {
+    background: rgba(255,215,0,0.1);
+    border-color: var(--yellow);
+  }
+
+  /* HERO */
+  .hero {
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding: 100px 20px 60px;
+    z-index:1;
+  }
+  .hero-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: clamp(1.8rem, 6vw, 4.5rem);
+    letter-spacing: 4px;
+    line-height:1.3;
+    position:relative;
+    animation: titleReveal 0.8s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  @keyframes titleReveal {
+    from { opacity:0; transform:translateY(-40px) scale(0.9); }
+    to { opacity:1; transform:translateY(0) scale(1); }
+  }
+  .hero-title .letter {
+    display:inline-block;
+    background: linear-gradient(180deg, #FFE566 0%, #FFD700 40%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: letterFloat 3s ease-in-out infinite;
+    text-shadow: none;
+    filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
+  }
+  .hero-title .letter:nth-child(1) { animation-delay: 0s; }
+  .hero-title .letter:nth-child(2) { animation-delay: 0.15s; }
+  .hero-title .letter:nth-child(3) { animation-delay: 0.3s; }
+  .hero-title .letter:nth-child(4) { animation-delay: 0.45s; }
+  .hero-title .letter:nth-child(5) { animation-delay: 0.6s; }
+  .hero-title .letter:nth-child(6) { animation-delay: 0.75s; }
+  .hero-title .letter:nth-child(7) { animation-delay: 0.9s; }
+  .hero-title .letter:nth-child(8) { animation-delay: 1.05s; }
+  @keyframes letterFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  .hero-subtitle {
+    font-family:'Orbitron', sans-serif;
+    font-size: clamp(0.4rem, 1.2vw, 0.6rem);
+    letter-spacing: 4px;
+    color: rgba(255,215,0,0.5);
+    margin-top: 10px;
+    text-transform:uppercase;
+    animation: fadeUp 0.8s 0.3s both;
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(20px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .hero-desc {
+    font-size:0.75rem;
+    color:#aaa;
+    margin-top:20px;
+    max-width:500px;
+    animation: fadeUp 0.8s 0.5s both;
+  }
+  .hero-buttons {
+    display:flex;
+    gap:16px;
+    margin-top:40px;
+    flex-wrap:wrap;
+    justify-content:center;
+    animation: fadeUp 0.8s 0.7s both;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #000;
+    border:none;
+    padding: 14px 36px;
+    font-family:'Rajdhani',sans-serif;
+    font-size:0.75rem;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    border-radius:6px;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(255,215,0,0.3);
+  }
+  .btn-primary::before {
+    content:'';
+    position:absolute;
+    top:0; left:-100%;
+    width:100%; height:100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition:0.4s;
+  }
+  .btn-primary:hover::before { left:100%; }
+  .btn-primary:hover {
+    transform:translateY(-2px);
+    box-shadow: 0 0 35px rgba(255,215,0,0.5);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--yellow);
+    border: 2px solid var(--yellow);
+    padding: 12px 32px;
+    font-family:'Rajdhani',sans-serif;
+    font-size:0.75rem;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    border-radius:6px;
+    cursor:pointer;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover {
+    background: rgba(255,215,0,0.1);
+    transform:translateY(-2px);
+    box-shadow: 0 0 20px rgba(255,215,0,0.2);
+  }
+
+  /* POPUP */
+  .overlay {
+    display:none;
+    position:fixed;
+    inset:0;
+    background: rgba(0,0,0,0.85);
+    z-index:200;
+    align-items:center;
+    justify-content:center;
+    backdrop-filter: blur(4px);
+  }
+  .overlay.active { display:flex; }
+  .popup {
+    background: var(--card);
+    border: 2px solid rgba(255,215,0,0.3);
+    border-radius:12px;
+    padding:40px;
+    max-width:500px;
+    width:90%;
+    position:relative;
+    animation: popIn 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  @keyframes popIn {
+    from { opacity:0; transform:scale(0.8); }
+    to { opacity:1; transform:scale(1); }
+  }
+  .popup-close {
+    position:absolute;
+    top:14px; right:18px;
+    background:none; border:none;
+    color:#888; font-size:1.5rem;
+    cursor:pointer;
+    transition:color 0.2s;
+  }
+  .popup-close:hover { color:#fff; }
+  .popup h2 {
+    font-family:'Press Start 2P',cursive;
+    font-size:0.9rem;
+    letter-spacing:3px;
+    color:var(--yellow);
+    margin-bottom:10px;
+  }
+  .popup p { color:#ccc; font-size:1rem; line-height:1.6; margin-bottom:10px; }
+  .popup .tiktok-handle {
+    font-family:'Press Start 2P',cursive;
+    font-size:0.75rem;
+    color:var(--yellow);
+    font-weight:700;
+    background: rgba(255,215,0,0.08);
+    padding:10px 16px;
+    border-radius:6px;
+    border:1px solid rgba(255,215,0,0.2);
+    display:inline-block;
+    margin:10px 0;
+  }
+
+  /* REQUISITOS */
+  .req-section {
+    margin-top:30px;
+    border-top:1px solid rgba(255,215,0,0.15);
+    padding-top:24px;
+  }
+  .req-section h3 {
+    font-family:'Press Start 2P',cursive;
+    font-size:0.75rem;
+    letter-spacing:3px;
+    color:#fff;
+    margin-bottom:16px;
+  }
+  .req-cards {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .req-card {
+    background: rgba(255,215,0,0.05);
+    border:1px solid rgba(255,215,0,0.2);
+    border-radius:8px;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .req-card .icon {
+    font-size:1.4rem;
+    flex-shrink:0;
+  }
+  .req-card span {
+    font-size:0.9rem;
+    font-weight:600;
+    color:#ddd;
+    letter-spacing:0.5px;
+  }
+
+  /* SUPPORTER POPUP */
+  .plan-card {
+    background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,165,0,0.05));
+    border:2px solid var(--yellow);
+    border-radius:12px;
+    padding:30px;
+    text-align:center;
+    margin:20px 0;
+  }
+  .plan-card h3 {
+    font-family:'Press Start 2P',cursive;
+    font-size:0.9rem;
+    letter-spacing:3px;
+    color:var(--yellow);
+    margin-bottom:8px;
+  }
+  .plan-price {
+    font-family:'Press Start 2P',cursive;
+    font-size:1.4rem;
+    font-weight:900;
+    color:#fff;
+    margin:10px 0;
+  }
+  .plan-price span { font-size:1rem; color:#aaa; font-weight:400; }
+  .plan-perks { list-style:none; color:#ccc; font-size:0.7rem; margin:16px 0; }
+  .plan-perks li { padding:4px 0; }
+  .plan-perks li::before { content:'✦ '; color:var(--yellow); }
+  .pix-input {
+    width:100%;
+    background: rgba(255,255,255,0.05);
+    border:1px solid rgba(255,215,0,0.3);
+    border-radius:6px;
+    padding:12px 16px;
+    color:#fff;
+    font-family:'Rajdhani',sans-serif;
+    font-size:1rem;
+    margin:8px 0;
+    outline:none;
+    transition:border-color 0.2s;
+  }
+  .pix-input:focus { border-color:var(--yellow); }
+  .pix-input::placeholder { color:#555; }
+
+  /* SACAR SECTION */
+  .sacar-total {
+    background: rgba(255,215,0,0.07);
+    border:1px solid rgba(255,215,0,0.25);
+    border-radius:8px;
+    padding:20px;
+    text-align:center;
+    margin:16px 0;
+  }
+  .sacar-total p { color:#aaa; font-size:0.9rem; margin-bottom:4px; }
+  .sacar-total .amount {
+    font-family:'Press Start 2P',cursive;
+    font-size:1rem;
+    font-weight:700;
+    color:var(--yellow);
+  }
+  .success-msg {
+    background: rgba(0,200,80,0.1);
+    border:1px solid rgba(0,200,80,0.3);
+    border-radius:6px;
+    padding:12px;
+    color:#4dff8a;
+    font-size:0.9rem;
+    margin-top:10px;
+    display:none;
+  }
+
+  /* ADMIN */
+  .admin-form label {
+    display:block;
+    color:#aaa;
+    font-size:0.85rem;
+    margin-bottom:4px;
+    margin-top:14px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  .admin-section-title {
+    font-family:'Press Start 2P',cursive;
+    font-size:0.7rem;
+    letter-spacing:2px;
+    color:var(--yellow);
+    margin-top:24px;
+    margin-bottom:8px;
+    border-bottom:1px solid rgba(255,215,0,0.15);
+    padding-bottom:8px;
+  }
+
+  /* SCROLL sections */
+  .section {
+    position:relative;
+    z-index:1;
+    padding: 80px 40px;
+    max-width:1200px;
+    margin:0 auto;
+  }
+  .section-title {
+    font-family:'Press Start 2P',cursive;
+    font-size:1.2rem;
+    letter-spacing:5px;
+    color:var(--yellow);
+    margin-bottom:40px;
+    text-align:center;
+  }
+
+  /* FOOTER */
+  footer {
+    position:relative;
+    z-index:1;
+    text-align:center;
+    padding:30px;
+    border-top:1px solid rgba(255,215,0,0.1);
+    color:#444;
+    font-size:0.85rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+  footer span { color:rgba(255,215,0,0.3); }
+
+  /* glitch decoration */
+  .glow-line {
+    width:80px;
+    height:3px;
+    background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+    margin: 16px auto;
+    border-radius:2px;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:#0a0a0a; }
+  ::-webkit-scrollbar-thumb { background:rgba(255,215,0,0.3); border-radius:3px; }
+
+  /* PAY METHODS */
+  .pay-method {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius:8px;
+    padding:12px 10px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    transition: all 0.2s;
+    font-size:0.65rem;
+    font-family:'Rajdhani',sans-serif;
+    font-weight:700;
+    color:#aaa;
+  }
+  .pay-method:hover { border-color:rgba(255,215,0,0.4); color:#fff; }
+  .pay-method.active {
+    border-color: var(--yellow);
+    background: rgba(255,215,0,0.08);
+    color: var(--yellow);
+  }
+  .pay-icon { font-size:1.1rem; }
+
+  @media(max-width:600px){
+    nav { padding:12px 20px; }
+    .req-cards { grid-template-columns:1fr; }
+    .hero-buttons { flex-direction:column; align-items:center; }
+    .popup { padding:28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">HOUSE ST</div>
+  <div class="nav-links">
+    <a onclick="openOverlay('overlaySupporter')">Suportador</a>
+    <a id="navSacar" style="display:none;" onclick="openOverlay('overlaySacar')">Sacar</a>
+    <button class="nav-btn-admin" onclick="openOverlay('overlayAdminLogin')">Admin</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <h1 class="hero-title" id="mainTitle"></h1>
+  <div class="hero-subtitle">Comunidade Oficial</div>
+  <div class="glow-line"></div>
+  <p class="hero-desc">Bem-vindo à House ST — entre, conecte-se e faça parte da nossa família.</p>
+  <div class="hero-buttons">
+    <button class="btn-primary" onclick="openOverlay('overlayEntrar')">Entre Na House</button>
+    <button class="btn-secondary" onclick="openOverlay('overlaySupporter')">Suportador</button>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 <span>HOUSE ST</span> — Todos os direitos reservados</p>
+</footer>
+
+<!-- ===== OVERLAY: ENTRAR ===== -->
+<div class="overlay" id="overlayEntrar">
+  <div class="popup">
+    <button class="popup-close" onclick="closeOverlay('overlayEntrar')">✕</button>
+    <h2>🏠 Entre Na House!</h2>
+    <div class="glow-line" style="margin:10px 0;"></div>
+    <p>Para entrar na nossa comunidade, entre em contato pelo TikTok:</p>
+    <div class="tiktok-handle">@holly_wheeler448</div>
+    <p style="margin-top:8px; color:#888; font-size:0.9rem;">Mande uma mensagem e aguarde a resposta!</p>
+
+    <div class="req-section">
+      <h3>📋 Requisitos</h3>
+      <div class="req-cards">
+        <div class="req-card">
+          <span class="icon">🔞</span>
+          <span>Tenha 10+ De Idade!</span>
+        </div>
+        <div class="req-card">
+          <span class="icon">⚡</span>
+          <span>Seja Ativo</span>
+        </div>
+        <div class="req-card">
+          <span class="icon">📝</span>
+          <span>Preencha a Fichinha!</span>
+        </div>
+        <div class="req-card">
+          <span class="icon">🎉</span>
+          <span>Participe dos eventos <em style="color:#666;font-size:0.8rem">(Não Obrigatório)</em></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== OVERLAY: SUPORTADOR ===== -->
+<div class="overlay" id="overlaySupporter">
+  <div class="popup" style="max-width:480px; padding:0; overflow:hidden; border:none; border-radius:16px;">
+
+    <!-- STEP 1: PLANO -->
+    <div id="stepPlano" style="display:block;">
+      <!-- Header gradiente -->
+      <div style="background:linear-gradient(135deg,#1a1200,#2a1f00); padding:32px 32px 24px; border-bottom:1px solid rgba(255,215,0,0.15); position:relative;">
+        <button class="popup-close" onclick="closeOverlay('overlaySupporter')" style="top:16px;right:16px;">✕</button>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+          <span style="font-size:1.4rem;">⭐</span>
+          <span style="font-family:'Press Start 2P',cursive;font-size:0.6rem;color:var(--yellow);letter-spacing:2px;">HOUSE ST</span>
+        </div>
+        <h2 style="font-family:'Press Start 2P',cursive;font-size:1rem;color:#fff;line-height:1.5;margin-bottom:8px;">Plano Suportador</h2>
+        <div style="display:flex;align-items:baseline;gap:6px;">
+          <span style="font-family:'Press Start 2P',cursive;font-size:1.6rem;color:var(--yellow);">R$3</span>
+          <span style="color:#888;font-size:0.8rem;">,00 / mês</span>
+        </div>
+        <!-- Badge -->
+        <div style="position:absolute;top:20px;right:56px;background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;font-family:'Press Start 2P',cursive;font-size:0.4rem;padding:5px 10px;border-radius:20px;letter-spacing:1px;">POPULAR</div>
+      </div>
+
+      <!-- Mensagem única -->
+      <div style="padding:24px 32px; background:var(--card);">
+        <div style="text-align:center;padding:20px;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:12px;margin-bottom:20px;">
+          <span style="font-size:2rem;">❤️</span>
+          <p style="font-family:'Press Start 2P',cursive;font-size:0.6rem;color:var(--yellow);line-height:2;margin-top:10px;">Apoie a nossa House!</p>
+        </div>
+
+        <!-- Separador -->
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:20px 0;"></div>
+
+        <!-- Campos -->
+        <p style="font-family:'Press Start 2P',cursive;font-size:0.5rem;color:#888;letter-spacing:2px;margin-bottom:12px;">SEUS DADOS</p>
+        <input class="pix-input" type="text" placeholder="Seu nome (Opcional)" id="supporterName" style="margin-bottom:8px;">
+        <input class="pix-input" type="text" placeholder="TikTok (ex: @seuperfil)" id="supporterUser">
+
+        <button class="btn-primary" style="width:100%;margin-top:20px;padding:16px;" onclick="irParaPagamento()">
+          Continuar para Pagamento →
+        </button>
+        <p style="text-align:center;color:#555;font-size:0.7rem;margin-top:10px;">🔒 Pagamento 100% via PIX • Seguro</p>
+      </div>
+    </div>
+
+    <!-- STEP 2: QR CODE PIX -->
+    <div id="stepPix" style="display:none;">
+      <div style="background:linear-gradient(135deg,#0a1a0a,#0f2a0f); padding:24px 32px 20px; border-bottom:1px solid rgba(255,215,0,0.15); position:relative;">
+        <button class="popup-close" onclick="closeOverlay('overlaySupporter');resetSupporter();" style="top:16px;right:16px;font-size:1rem;">✕</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:1.2rem;">⚡</span>
+          <span style="font-family:'Press Start 2P',cursive;font-size:0.55rem;color:#4dff88;letter-spacing:2px;">PAGAMENTO PIX</span>
+        </div>
+        <p style="color:#aaa;font-size:0.8rem;margin-top:6px;">Escaneie o QR Code ou copie o código</p>
+      </div>
+
+      <div style="padding:28px 32px;background:var(--card);">
+        <!-- Valor destaque -->
+        <div style="text-align:center;margin-bottom:20px;">
+          <div style="font-family:'Press Start 2P',cursive;font-size:1.4rem;color:var(--yellow);">R$ 3,00</div>
+          <div style="color:#666;font-size:0.75rem;margin-top:4px;">Plano Suportador — House ST</div>
+        </div>
+
+        <!-- QR Code box -->
+        <div style="background:#fff;border-radius:12px;padding:16px;width:fit-content;margin:0 auto 10px;box-shadow:0 0 30px rgba(255,215,0,0.2);">
+          <div id="qrcode" style="width:180px;height:180px;display:flex;align-items:center;justify-content:center;">
+            <div style="color:#333;font-size:0.7rem;text-align:center;">Gerando...</div>
+          </div>
+        </div>
+        <!-- Timer -->
+        <div style="text-align:center;margin-bottom:14px;">
+          <span id="qrTimer" style="font-family:'Press Start 2P',cursive;font-size:0.5rem;color:#aaa;letter-spacing:1px;">⏱ Carregando...</span>
+        </div>
+
+        <!-- Código copia e cola -->
+        <div style="margin-bottom:16px;">
+          <p style="font-family:'Press Start 2P',cursive;font-size:0.5rem;color:#888;letter-spacing:2px;margin-bottom:8px;">COPIA E COLA PIX</p>
+          <div style="display:flex;gap:8px;align-items:stretch;">
+            <div id="pixCodigoDisplay" style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:10px 12px;font-size:0.6rem;color:#aaa;word-break:break-all;line-height:1.6;max-height:60px;overflow:hidden;font-family:monospace;">
+              Gerando código PIX...
+            </div>
+            <button onclick="copiarPix()" id="btnCopiar" style="background:linear-gradient(135deg,#FFD700,#FFA500);color:#000;border:none;border-radius:8px;padding:0 16px;font-family:'Press Start 2P',cursive;font-size:0.5rem;cursor:pointer;white-space:nowrap;letter-spacing:1px;transition:all 0.2s;flex-shrink:0;">
+              📋 COPIAR
+            </button>
+          </div>
+        </div>
+
+        <!-- Aviso -->
+        <div style="background:rgba(77,255,136,0.06);border:1px solid rgba(77,255,136,0.2);border-radius:8px;padding:12px;margin-bottom:16px;">
+          <p style="color:#4dff88;font-size:0.65rem;line-height:1.8;">💛 Após pagar, envie o comprovante para<br>
+          <strong style="color:#fff;">@holly_wheeler448</strong> no TikTok.</p>
+        </div>
+
+        <button onclick="voltarPlano()" style="width:100%;background:transparent;border:1px solid rgba(255,255,255,0.1);color:#666;font-size:0.6rem;margin-top:4px;cursor:pointer;padding:12px;border-radius:6px;font-family:'Press Start 2P',cursive;">← Voltar</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: SUCESSO -->
+    <div id="stepSucesso" style="display:none;">
+      <div style="padding:48px 32px;background:var(--card);text-align:center;">
+        <div style="font-size:3rem;margin-bottom:16px;animation:popIn 0.4s ease;">🎉</div>
+        <h2 style="font-family:'Press Start 2P',cursive;font-size:0.9rem;color:var(--yellow);margin-bottom:12px;line-height:1.6;">Bem-vindo(a) à<br>House ST!</h2>
+        <p style="color:#aaa;font-size:0.8rem;line-height:1.8;margin-bottom:24px;">Obrigado pelo suporte! 💛<br>Entre em contato com<br><strong style="color:#fff;">@holly_wheeler448</strong> no TikTok<br>para ativar seu cargo.</p>
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:20px 0;"></div>
+        <button class="btn-primary" style="width:100%;" onclick="closeOverlay('overlaySupporter');resetSupporter();">Fechar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== OVERLAY: SACAR ===== -->
+<div class="overlay" id="overlaySacar">
+  <div class="popup">
+    <button class="popup-close" onclick="closeOverlay('overlaySacar')">✕</button>
+    <h2>💸 Sacar</h2>
+    <div class="glow-line" style="margin:10px 0;"></div>
+    <div class="sacar-total">
+      <p>Total arrecadado</p>
+      <div class="amount" id="totalAmount">R$ 0,00</div>
+    </div>
+    <p style="color:#888; font-size:0.9rem; margin-bottom:16px;">Envie o PIX para receber o valor arrecadado:</p>
+    <input class="pix-input" type="text" placeholder="Chave PIX (CPF, e-mail, telefone...)" id="pixKey">
+    <input class="pix-input" type="text" placeholder="Valor a sacar (ex: 3.00)" id="pixAmount">
+    <button class="btn-primary" style="width:100%; margin-top:12px;" onclick="enviarPix()">Enviar PIX</button>
+    <div class="success-msg" id="pixSuccess">✅ PIX enviado com sucesso!</div>
+  </div>
+</div>
+
+<!-- ===== OVERLAY: ADMIN LOGIN ===== -->
+<div class="overlay" id="overlayAdminLogin">
+  <div class="popup">
+    <button class="popup-close" onclick="closeOverlay('overlayAdminLogin')">✕</button>
+    <h2>🔐 Admin</h2>
+    <div class="glow-line" style="margin:10px 0;"></div>
+    <p style="color:#888; font-size:0.7rem; margin-bottom:16px; line-height:1.8;">Um código de 6 dígitos será enviado para o e-mail autorizado.</p>
+    <button class="btn-primary" style="width:100%;" onclick="enviarCodigoAdmin()" id="btnEnviarCodigo">Enviar Código para Gmail</button>
+    <div id="adminCodeSection" style="display:none; margin-top:16px;">
+      <label style="color:#aaa; font-size:0.65rem; font-family:'Press Start 2P',cursive; display:block; margin-bottom:8px;">CÓDIGO RECEBIDO</label>
+      <input class="pix-input" type="text" placeholder="Digite o código de 6 dígitos" id="adminCodeInput" maxlength="6">
+      <button class="btn-primary" style="width:100%; margin-top:10px;" onclick="verificarCodigo()">Verificar Código</button>
+    </div>
+    <div class="success-msg" id="adminCodeSent" style="display:none;">📧 Código enviado para <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2cec7d4cbc0cdcccbd6c3cd93909196e2c5cfc3cbce8cc1cdcf">[email&#160;protected]</a></div>
+    <div class="success-msg" id="adminError" style="background:rgba(255,50,50,0.1); border-color:rgba(255,50,50,0.3); color:#ff6b6b; display:none;">❌ Código inválido. Tente novamente.</div>
+  </div>
+</div>
+
+<!-- ===== OVERLAY: ADMIN PANEL ===== -->
+<div class="overlay" id="overlayAdminPanel">
+  <div class="popup" style="max-width:600px; max-height:85vh; overflow-y:auto;">
+    <button class="popup-close" onclick="closeOverlay('overlayAdminPanel')">✕</button>
+    <h2>⚙️ Painel Admin</h2>
+    <div style="display:flex;justify-content:flex-end;margin-top:-10px;margin-bottom:6px;">
+      <button onclick="adminLogout()" style="background:rgba(255,50,50,0.15);border:1px solid rgba(255,50,50,0.4);color:#ff6b6b;padding:6px 14px;border-radius:4px;font-family:'Press Start 2P',cursive;font-size:0.5rem;cursor:pointer;letter-spacing:1px;">LOGOUT</button>
+    </div>
+    <div class="glow-line" style="margin:10px 0;"></div>
+
+    <div class="admin-section-title">💰 Financeiro</div>
+    <div class="sacar-total">
+      <p>Total arrecadado com Suportadores</p>
+      <div class="amount" id="adminTotal">R$ 0,00</div>
+    </div>
+
+    <div class="admin-section-title">⭐ Suportadores</div>
+    <div id="supporterList" style="color:#aaa; font-size:0.9rem;">Nenhum suportador ainda.</div>
+
+    <div class="admin-section-title">✏️ Editar Plano Suportador</div>
+    <div class="admin-form">
+      <label>Preço (R$)</label>
+      <input class="pix-input" type="number" id="adminPrice" value="3.00" step="0.01">
+      <label>Nome do Plano</label>
+      <input class="pix-input" type="text" id="adminPlanName" value="Plano Suportador">
+      <label>Benefícios (um por linha)</label>
+      <textarea class="pix-input" id="adminPerks" rows="5" style="resize:vertical;">Tag exclusiva de Suportador
+Acesso a canais especiais
+Suporte prioritário
+Apoie a House ST ❤️</textarea>
+      <button class="btn-primary" style="width:100%; margin-top:12px;" onclick="salvarPlano()">Salvar Alterações</button>
+    </div>
+    <div class="success-msg" id="planSaved">✅ Plano atualizado com sucesso!</div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+(function(){
+  // =========================================================
+  // 🛡️ HOUSE ST SECURITY SHIELD
+  // =========================================================
+
+  // 1. Bloquear console completamente
+  const _noop = ()=>{};
+  const _warn = ()=>{};
+  try {
+    Object.defineProperty(window,'console',{
+      get(){ return { log:_noop,warn:_warn,error:_noop,info:_noop,debug:_noop,table:_noop,dir:_noop,group:_noop,groupEnd:_noop,clear:_noop,trace:_noop }; },
+      set(){ return false; }
+    });
+  } catch(e){}
+
+  // 2. Detectar DevTools aberto e bloquear sessão admin
+  let _devOpen = false;
+  const _devCheck = ()=>{
+    const t = new Date();
+    debugger;
+    if(new Date() - t > 80){
+      _devOpen = true;
+      if(_isAdmin){ _forceLogout('🚨 DevTools detectado! Sessão encerrada.'); }
+    }
+  };
+  setInterval(_devCheck, 2000);
+
+  // 3. Bloquear clique direito
+  document.addEventListener('contextmenu', e=>{ e.preventDefault(); showSecAlert('🚫 Ação bloqueada pela HOUSE ST Security.'); });
+
+  // 4. Bloquear atalhos de DevTools / inspecionar
+  document.addEventListener('keydown', e=>{
+    const k = e.key;
+    if(
+      e.keyCode===123 || // F12
+      (e.ctrlKey && e.shiftKey && ['I','J','C','K'].includes(k.toUpperCase())) ||
+      (e.ctrlKey && k.toUpperCase()==='U') ||
+      (e.metaKey && e.altKey && ['I','J','U'].includes(k.toUpperCase()))
+    ){
+      e.preventDefault();
+      showSecAlert('🚫 Bloqueado pela HOUSE ST Security.');
+      return false;
+    }
+  });
+
+  // 5. Bloquear seleção de texto (anti-copy source)
+  document.addEventListener('selectstart', e=>e.preventDefault());
+
+  // ---- SECURITY ALERT UI ----
+  function showSecAlert(msg){
+    let el = document.getElementById('_secAlert');
+    if(!el){
+      el = document.createElement('div');
+      el.id = '_secAlert';
+      el.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:99999;background:#1a0000;border:2px solid #ff3333;border-radius:8px;padding:14px 24px;color:#ff6b6b;font-family:"Press Start 2P",cursive;font-size:0.55rem;text-align:center;max-width:340px;line-height:1.8;box-shadow:0 0 30px rgba(255,0,0,0.3);';
+      document.body.appendChild(el);
+    }
+    el.textContent = msg;
+    el.style.display = 'block';
+    clearTimeout(el._t);
+    el._t = setTimeout(()=>{ el.style.display='none'; }, 3000);
+  }
+
+  // =========================================================
+  // STATE
+  // =========================================================
+  emailjs.init("rh02YfBqLHu1NhcaC");
+
+  let _isAdmin = false;
+  let _totalArrecadado = 0;
+  let _supporters = [];
+  let _adminCode = null;
+  let _adminCodeExpiry = 0;
+  let _loginAttempts = 0;
+  let _lockUntil = 0;
+  let _selectedMethod = 'pix';
+  const CODE_TTL = 5 * 60 * 1000; // 5 min
+  const MAX_ATTEMPTS = 5;
+  const LOCKOUT_MS = 15 * 60 * 1000; // 15 min
+
+  function _forceLogout(reason){
+    _isAdmin = false;
+    document.getElementById('navSacar').style.display = 'none';
+    closeOverlay('overlayAdminPanel');
+    closeOverlay('overlaySacar');
+    setTimeout(()=>showSecAlert(reason||'Sessão encerrada.'), 100);
+  }
+
+  // Admin guard: only call fn if admin session active
+  function adminGuard(fn){
+    if(!_isAdmin){ showSecAlert('🔒 Acesso negado. Faça login como Admin.'); return; }
+    fn();
+  }
+
+  // ---- Title animation ----
+  const titleText = "HOUSE ST";
+  const titleEl = document.getElementById('mainTitle');
+  titleText.split('').forEach((char, i) => {
+    const span = document.createElement('span');
+    span.className = 'letter';
+    span.textContent = char === ' ' ? '\u00A0' : char;
+    span.style.animationDelay = `${i * 0.15}s`;
+    titleEl.appendChild(span);
+  });
+
+  // ---- Overlay ----
+  function openOverlay(id){
+    // Guard protected overlays
+    if((id==='overlaySacar'||id==='overlayAdminPanel') && !_isAdmin){
+      showSecAlert('🔒 Acesso restrito a administradores.');
+      return;
+    }
+    document.getElementById(id).classList.add('active');
+    document.body.style.overflow = 'hidden';
+    if(id==='overlaySacar'||id==='overlayAdminPanel') updateTotals();
+  }
+  function closeOverlay(id){
+    const el = document.getElementById(id);
+    if(el) el.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.overlay').forEach(el=>{
+    el.addEventListener('click', e=>{ if(e.target===el) closeOverlay(el.id); });
+  });
+
+  // ---- Totals ----
+  function updateTotals(){
+    const fmt = v=>'R$ '+v.toFixed(2).replace('.',',');
+    const ta = document.getElementById('totalAmount');
+    if(ta) ta.textContent = fmt(_totalArrecadado);
+    const at = document.getElementById('adminTotal');
+    if(at) at.textContent = fmt(_totalArrecadado);
+    const list = document.getElementById('supporterList');
+    if(list){
+      if(_supporters.length===0){
+        list.innerHTML='<p style="color:#555;font-size:0.65rem;">Nenhum suportador ainda.</p>';
+      } else {
+        list.innerHTML = _supporters.map(s=>
+          `<div style="background:rgba(255,215,0,0.05);border:1px solid rgba(255,215,0,0.15);border-radius:6px;padding:10px 14px;margin-bottom:8px;font-size:0.6rem;">
+            <strong style="color:#fff;">${_escape(s.name)}</strong>
+            <span style="color:#888;margin-left:8px;">${_escape(s.email)}</span>
+            <span style="float:right;color:var(--yellow);font-weight:700;">R$ 3,00</span>
+            <div style="color:#666;margin-top:4px;">👤 ${_escape(s.user)} · 💳 ${_escape(s.method)}</div>
+          </div>`
+        ).join('');
+      }
+    }
+  }
+  function _escape(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  // =========================================================
+  // PIX QR CODE - Padrão Banco Central EMV
+  // =========================================================
+  const PIX_KEY = 'victor.vasconcelos.f.92@gmail.com';
+  const PIX_NAME = 'House ST';
+  const PIX_CITY = 'BRASIL';
+  const PIX_VALUE = '3.00';
+
+  function _crc16(str) {
+    let crc = 0xFFFF;
+    for (let i = 0; i < str.length; i++) {
+      crc ^= str.charCodeAt(i) << 8;
+      for (let j = 0; j < 8; j++) {
+        if (crc & 0x8000) crc = (crc << 1) ^ 0x1021;
+        else crc <<= 1;
+        crc &= 0xFFFF;
+      }
+    }
+    return crc.toString(16).toUpperCase().padStart(4, '0');
+  }
+
+  function _tlv(id, value) {
+    return id + value.length.toString().padStart(2, '0') + value;
+  }
+
+  // Gera txid único por sessão (não reutilizável)
+  function _gerarTxid() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let id = 'HST';
+    for (let i = 0; i < 10; i++) id += chars[Math.floor(Math.random() * chars.length)];
+    return id;
+  }
+
+  function gerarPixPayload() {
+    const gui = _tlv('00', 'BR.GOV.BCB.PIX') + _tlv('01', PIX_KEY);
+    const merchantInfo = _tlv('26', gui);
+    const txid = _tlv('05', _gerarTxid());
+    const addInfo = _tlv('50', _tlv('01', 'SUPORTADOR HOUSEST') + txid);
+    const payload =
+      _tlv('00', '01') +
+      merchantInfo +
+      _tlv('52', '0000') +
+      _tlv('53', '986') +
+      _tlv('54', PIX_VALUE) +
+      _tlv('58', 'BR') +
+      _tlv('59', PIX_NAME.substring(0, 25)) +
+      _tlv('60', PIX_CITY) +
+      addInfo +
+      '6304';
+    return payload + _crc16(payload);
+  }
+
+  let _pixPayload = '';
+  let _qrInstance = null;
+  let _qrExpiry = 0;
+  let _qrTimerInterval = null;
+  const QR_TTL = 10 * 60; // 10 minutos em segundos
+
+  // Rate limit: máx 3 gerações de QR por sessão
+  let _qrGenCount = 0;
+  const QR_MAX_GEN = 3;
+
+  function _iniciarTimerQR() {
+    clearInterval(_qrTimerInterval);
+    _qrExpiry = QR_TTL;
+    const timerEl = document.getElementById('qrTimer');
+    const qrBox = document.getElementById('qrcode');
+    const copyBtn = document.getElementById('btnCopiar');
+
+    _qrTimerInterval = setInterval(() => {
+      _qrExpiry--;
+      if (timerEl) {
+        const m = String(Math.floor(_qrExpiry / 60)).padStart(2, '0');
+        const s = String(_qrExpiry % 60).padStart(2, '0');
+        timerEl.textContent = `⏱ Expira em ${m}:${s}`;
+        // Amarelo → laranja → vermelho conforme expira
+        if (_qrExpiry > 120) timerEl.style.color = '#aaa';
+        else if (_qrExpiry > 30) timerEl.style.color = '#FFA500';
+        else timerEl.style.color = '#ff4444';
+      }
+      if (_qrExpiry <= 0) {
+        clearInterval(_qrTimerInterval);
+        // Invalidar QR
+        _pixPayload = '';
+        if (qrBox) qrBox.innerHTML = '<div style="color:#ff4444;font-size:0.6rem;text-align:center;padding:10px;font-family:\'Press Start 2P\',cursive;line-height:2;">QR CODE<br>EXPIRADO</div>';
+        if (copyBtn) { copyBtn.disabled = true; copyBtn.style.opacity = '0.4'; }
+        document.getElementById('pixCodigoDisplay').textContent = '— expirado —';
+        if (timerEl) timerEl.textContent = '⏱ Expirado';
+      }
+    }, 1000);
+  }
+
+  function gerarQRCode() {
+    if (_qrGenCount >= QR_MAX_GEN) {
+      showSecAlert('⚠️ Limite de tentativas atingido. Recarregue a página.');
+      return;
+    }
+    _qrGenCount++;
+
+    _pixPayload = gerarPixPayload();
+    document.getElementById('pixCodigoDisplay').textContent = _pixPayload;
+
+    const qrDiv = document.getElementById('qrcode');
+    qrDiv.innerHTML = '';
+
+    // Re-habilitar botão copiar caso estava desabilitado
+    const copyBtn = document.getElementById('btnCopiar');
+    if (copyBtn) { copyBtn.disabled = false; copyBtn.style.opacity = '1'; }
+
+    _qrInstance = new QRCode(qrDiv, {
+      text: _pixPayload,
+      width: 180,
+      height: 180,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H  // Máxima correção de erro
+    });
+
+    _iniciarTimerQR();
+  }
+
+  function copiarPix() {
+    if (!_pixPayload) { showSecAlert('⚠️ QR Code expirado! Volte e tente novamente.'); return; }
+    if (_qrExpiry <= 0) { showSecAlert('⚠️ Código expirado! Volte e gere um novo.'); return; }
+    navigator.clipboard.writeText(_pixPayload).then(() => {
+      const btn = document.getElementById('btnCopiar');
+      btn.textContent = '✅ COPIADO!';
+      btn.style.background = 'linear-gradient(135deg,#4dff88,#00cc55)';
+      setTimeout(() => {
+        btn.textContent = '📋 COPIAR';
+        btn.style.background = 'linear-gradient(135deg,#FFD700,#FFA500)';
+      }, 2500);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = _pixPayload;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      const btn = document.getElementById('btnCopiar');
+      btn.textContent = '✅ COPIADO!';
+      setTimeout(() => { btn.textContent = '📋 COPIAR'; }, 2500);
+    });
+  }
+
+  function irParaPagamento() {
+    document.getElementById('stepPlano').style.display = 'none';
+    document.getElementById('stepPix').style.display = 'block';
+    document.getElementById('stepSucesso').style.display = 'none';
+    setTimeout(gerarQRCode, 100);
+  }
+
+  function voltarPlano() {
+    clearInterval(_qrTimerInterval);
+    document.getElementById('stepPlano').style.display = 'block';
+    document.getElementById('stepPix').style.display = 'none';
+    document.getElementById('stepSucesso').style.display = 'none';
+  }
+
+  function confirmarPagamento() {
+    const name = document.getElementById('supporterName').value.trim();
+    const user = document.getElementById('supporterUser').value.trim();
+    _supporters.push({ name, user, method: 'pix' });
+    _totalArrecadado += 3;
+    updateTotals();
+    clearInterval(_qrTimerInterval);
+    document.getElementById('stepPlano').style.display = 'none';
+    document.getElementById('stepPix').style.display = 'none';
+    document.getElementById('stepSucesso').style.display = 'block';
+  }
+
+  function resetSupporter() {
+    clearInterval(_qrTimerInterval);
+    document.getElementById('supporterName').value = '';
+    document.getElementById('supporterUser').value = '';
+    document.getElementById('stepPlano').style.display = 'block';
+    document.getElementById('stepPix').style.display = 'none';
+    document.getElementById('stepSucesso').style.display = 'none';
+    _pixPayload = '';
+    _qrInstance = null;
+    _qrExpiry = 0;
+    _qrGenCount = 0;
+  }
+
+  // ---- Sacar (ADMIN ONLY) ----
+  function enviarPix(){
+    if(!_isAdmin){ _forceLogout('🚨 Acesso não autorizado!'); return; }
+    if(_devOpen){ _forceLogout('🚨 DevTools detectado!'); return; }
+    const key = document.getElementById('pixKey').value.trim();
+    const amount = parseFloat(document.getElementById('pixAmount').value);
+    if(!key){ showSecAlert('Digite uma chave PIX!'); return; }
+    if(!amount||amount<=0){ showSecAlert('Digite um valor válido!'); return; }
+    if(amount>_totalArrecadado){ showSecAlert('Saldo insuficiente!'); return; }
+    _totalArrecadado -= amount;
+    document.getElementById('pixSuccess').style.display='block';
+    document.getElementById('pixKey').value='';
+    document.getElementById('pixAmount').value='';
+    updateTotals();
+    setTimeout(()=>document.getElementById('pixSuccess').style.display='none',3000);
+  }
+
+  // ---- Admin Login com rate-limit e código criptografado ----
+  async function enviarCodigoAdmin(){
+    const now = Date.now();
+    if(now < _lockUntil){
+      const mins = Math.ceil((_lockUntil-now)/60000);
+      showSecAlert(`🔒 Bloqueado! Tente em ${mins} min.`);
+      return;
+    }
+    const btn = document.getElementById('btnEnviarCodigo');
+    btn.textContent='Enviando...'; btn.disabled=true;
+
+    // Gerar código e salvar como hash XOR simples (não exposto no console)
+    const raw = Math.floor(100000+Math.random()*900000).toString();
+    const key2 = Math.floor(Math.random()*9)+1;
+    // Store only XOR-scrambled version in memory, never the plain code
+    _adminCode = { scrambled: raw.split('').map(c=>(parseInt(c)^key2).toString()).join(''), key2 };
+    _adminCodeExpiry = now + CODE_TTL;
+
+    try {
+      await emailjs.send("service_housest","template_admincode",{
+        to_email:"levibonitao1234@gmail.com",
+        code: raw
+      });
+    } catch(e){ /* silent */ }
+
+    document.getElementById('adminCodeSent').style.display='block';
+    document.getElementById('adminCodeSection').style.display='block';
+    btn.textContent='Reenviar Código'; btn.disabled=false;
+
+    // Auto-expire code
+    setTimeout(()=>{ _adminCode=null; }, CODE_TTL);
+  }
+
+  function verificarCodigo(){
+    const now = Date.now();
+    if(now < _lockUntil){
+      const mins = Math.ceil((_lockUntil-now)/60000);
+      showSecAlert(`🔒 Muitas tentativas! Aguarde ${mins} min.`);
+      return;
+    }
+    if(!_adminCode||now>_adminCodeExpiry){
+      document.getElementById('adminError').style.display='block';
+      document.getElementById('adminError').textContent='❌ Código expirado. Solicite um novo.';
+      _adminCode=null;
+      return;
+    }
+    const input = document.getElementById('adminCodeInput').value.trim();
+    // Reconstruct plain code from scrambled to compare
+    const plain = _adminCode.scrambled.split('').map(c=>(parseInt(c)^_adminCode.key2).toString()).join('');
+
+    document.getElementById('adminError').style.display='none';
+    if(input===plain){
+      _isAdmin = true;
+      _loginAttempts = 0;
+      _adminCode = null;
+      // Reveal Sacar in nav
+      document.getElementById('navSacar').style.display='inline';
+      closeOverlay('overlayAdminLogin');
+      openOverlay('overlayAdminPanel');
+      document.getElementById('adminCodeInput').value='';
+      document.getElementById('adminCodeSection').style.display='none';
+      document.getElementById('adminCodeSent').style.display='none';
+      // Auto-logout after 30 min inactivity
+      resetAutoLogout();
+    } else {
+      _loginAttempts++;
+      if(_loginAttempts>=MAX_ATTEMPTS){
+        _lockUntil = Date.now()+LOCKOUT_MS;
+        _adminCode = null;
+        document.getElementById('adminError').style.display='block';
+        document.getElementById('adminError').textContent=`🔒 ${MAX_ATTEMPTS} tentativas erradas. Bloqueado por 15 min.`;
+      } else {
+        document.getElementById('adminError').style.display='block';
+        document.getElementById('adminError').textContent=`❌ Código inválido. (${MAX_ATTEMPTS-_loginAttempts} tentativas restantes)`;
+      }
+    }
+  }
+
+  // ---- Auto logout ----
+  let _autoLogoutTimer;
+  function resetAutoLogout(){
+    clearTimeout(_autoLogoutTimer);
+    _autoLogoutTimer = setTimeout(()=>{
+      if(_isAdmin) _forceLogout('⏰ Sessão expirada por inatividade.');
+    }, 30*60*1000);
+  }
+  ['click','keydown','mousemove'].forEach(ev=>document.addEventListener(ev,()=>{ if(_isAdmin) resetAutoLogout(); }));
+
+  // ---- Logout ----
+  function adminLogout(){
+    _forceLogout('👋 Logout realizado com sucesso.');
+  }
+
+  // ---- Salvar Plano ----
+  function salvarPlano(){
+    if(!_isAdmin){ showSecAlert('🔒 Sem permissão.'); return; }
+    document.getElementById('planSaved').style.display='block';
+    setTimeout(()=>document.getElementById('planSaved').style.display='none',2500);
+  }
+
+  // Expose only needed functions globally (minimum surface)
+  window.openOverlay = openOverlay;
+  window.closeOverlay = closeOverlay;
+  window.irParaPagamento = irParaPagamento;
+  window.voltarPlano = voltarPlano;
+  window.confirmarPagamento = confirmarPagamento;
+  window.resetSupporter = resetSupporter;
+  window.copiarPix = copiarPix;
+  window.enviarPix = enviarPix;
+  window.enviarCodigoAdmin = enviarCodigoAdmin;
+  window.verificarCodigo = verificarCodigo;
+  window.salvarPlano = salvarPlano;
+  window.adminLogout = adminLogout;
+  window.adminGuard = adminGuard;
+
+})();
+</script>
+</body>
+</html>
